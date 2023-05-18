@@ -1,19 +1,18 @@
-import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import css from './ContactList.module.css'
 
-class ContactList extends React.Component {
-  deleteId = Id => {
-    this.props.del(Id);
+const ContactList = ({del, contacts})=> {
+ const  deleteId = Id => {
+   del(Id);
   };
-  createList = () => {
-    return this.props.contacts.map(contact => {
+  const createList = () => {
+    return contacts.map(contact => {
       return (
         <li className={css.item} key={uuidv4()} id={contact.id}>
           {`${contact.name}: ${contact.number}`}
           <button className={css.button}
             data-id={contact.id}
-            onClick={() => this.deleteId(contact.id)}
+            onClick={() => deleteId(contact.id)}
           >
             Delete
           </button>
@@ -22,9 +21,8 @@ class ContactList extends React.Component {
     });
   };
 
-  render() {
-    return <ul className={css.list}>{this.createList()}</ul>;
-  }
+
+    return <ul className={css.list}>{createList()}</ul>;
 }
 // ContactList.propTypes = {
 //   contacts: PropTypes.array.isRequired,

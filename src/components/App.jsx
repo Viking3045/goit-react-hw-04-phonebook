@@ -3,108 +3,97 @@ import Form from './Form/Form';
 import Filter from './Filter/Filter';
 import { v4 as uuidv4 } from 'uuid';
 import ContactList from './ContactList/ContactList';
+import { useState, useEffect } from 'react';
 // import { nanoid } from 'nanoid';
 
-export class App extends React.Component {
-  state = {
-    contacts: [
-      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-    ],
-    filter: '',
-  };
+export const App =()=> {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
+  // state = {
+  //   contacts: [
+  //   ],
+  //   filter: '',
+  // };
 
+  useEffect(() => {
+    //  console.log(prevState)
+      console.log(contacts)
+      localStorage.setItem('contacts', JSON.stringify(contacts))
+  });
+  // useEffect(() => {
+  //   const contactsLocalStorage = JSON.parse(localStorage.getItem('contacts'))
+  //   setContacts( contactsLocalStorage)
+    
+  // },[])
 
+  //   componentDidUpdate(prevProps, prevState) {
+  //   // console.log('AppComponentDidUpdate')
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     // console.log('refresh pages')
+  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+  //   }
+  // }
+  // componentDidMount() {
+  //   const contactsLocalStorage = JSON.parse(localStorage.getItem('contacts'))
+  //   if (contactsLocalStorage) {
+  //         this.setState({contacts: contactsLocalStorage})
+  //   }
 
-    componentDidUpdate(prevProps, prevState) {
-    // console.log('AppComponentDidUpdate')
-    if (this.state.contacts !== prevState.contacts) {
-      // console.log('refresh pages')
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-    }
-  }
-  componentDidMount() {
-    const contactsLocalStorage = JSON.parse(localStorage.getItem('contacts'))
-    if (contactsLocalStorage) {
-          this.setState({contacts: contactsLocalStorage})
-    }
+  // }
 
-  }
-
-  formSubmitHandler = (data) => {
- this.repeatControl(data)
+  const formSubmitHandler = (data) => {
+ repeatControl(data)
     
   }
-   repeatControl = data => {
+   const repeatControl = data => {
     let nameArray = [];
-    nameArray = this.state.contacts.map(cur => cur.name);
+    nameArray = contacts.map(cur => cur.name);
     if (!nameArray.includes(data.name)) {
       let arrayCont = [];
       arrayCont = [
-        ...this.state.contacts,
+        ...contacts,
         { id: uuidv4(), name: data.name, number: data.number },
       ];
-      return this.setState({ ...this.state, contacts: arrayCont });
+      return setContacts( arrayCont );
     } else {
       alert(' Контакт вже є у телефонній книзі!!!');
     }
   };
 
-  elementDelete = (arr, idContact) => {
+ const  elementDelete = (arr, idContact) => {
     let newArr = arr.filter(elem => elem.id !== idContact);
     return newArr;
   };
 
-  deleteContactFromContactList = idContact => {
-    let newArrAfterDel = this.elementDelete(this.state.contacts, idContact);
-    this.setState({
-      ...this.state,
-      contacts: [...newArrAfterDel],
-    });
+ const deleteContactFromContactList = idContact => {
+    let newArrAfterDel = elementDelete(contacts, idContact);
+    setContacts(
+       newArrAfterDel
+    );
   };
 
-  setFilterToState = filterData => {
-    this.setState({ ...this.state, filter: `${filterData}` });
+ const setFilterToState = filterData => {
+    setFilter(filterData );
   };
 
-  filterArr = fArr => {
+ const filterArr = fArr => {
     let newArr = fArr.filter(cur =>
-      cur.name.toUpperCase().includes(this.state.filter),
+      cur.name.toUpperCase().includes(filter),
     );
     return newArr;
   };
-  //  changeFilter = (event) => {
-  //   event.preventDefault();
-  //   this.setState({filter:event.currentTarget.value})
-  // }
 
-
-
-
- 
-  render() {
-    // const data = this.formSubmitHandler(data)
-    // const VisibleContacts = this.state.contacts
-    //  console.log(this.state.contacts)
     return (
           <div className="App">
         <h1>Phonebook</h1>
-        <Form onSubmitData={this.formSubmitHandler} />
+        <Form onSubmitData={formSubmitHandler} />
         <h1>Contacts</h1>
-        <Filter setFilterToState={this.setFilterToState} />
+        <Filter setFilterToState={setFilterToState} />
         <ContactList
-          contacts={this.filterArr(this.state.contacts)}
-          del={this.deleteContactFromContactList}
+          contacts={filterArr(contacts)}
+          del={deleteContactFromContactList}
         />
       </div>
-      // <div>
-      //   <Form contacts={this.state.contacts} onSubmit={this.formSubmitHandler} />
-      //       <h2>Contacts</h2>
-      //   <Filter filter={this.state.filter} onChange={this.changeFilter} contacts={this.state.contacts} />
-      //   {/* <ContactList visibleContacts={this.state.contacts} /> */}
-      // </div>
+
     );
-  }
 }
