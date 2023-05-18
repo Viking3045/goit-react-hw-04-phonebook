@@ -5,20 +5,20 @@ import css from './Form.module.css'
 const Form = ({onSubmitData}) => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
-  // state = {
-  //   name: '',
-  //   number: '',
-  //   // contacts:[],
-  // };
 
- const handelInputChange = event => {
-    const {  value } = event.target;
-    setName( value );
+const handelInputChange = event => {
+    const {name,  value } = event.target;
+  switch (name) {
+    case 'name':
+      setName(value);
+      break;
+    case 'number':
+      setNumber(value);
+      break;
+    default:
+      return;
+   }
   };
-  const handelInputChangeNumber = event => {
-    const {  value } = event.target;
-     setNumber( value );
-  }
 
  const handelSubmit = (event) => {
     event.preventDefault();
@@ -63,7 +63,7 @@ const Form = ({onSubmitData}) => {
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
-              onChange={handelInputChangeNumber}
+              onChange={handelInputChange}
             />
           </label>
           <button className={css.button} type="submit">Add contact</button>

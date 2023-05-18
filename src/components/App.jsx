@@ -7,22 +7,15 @@ import { useState, useEffect } from 'react';
 // import { nanoid } from 'nanoid';
 
 export const App =()=> {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState( ()=> JSON.parse(window.localStorage.getItem('contacts')) ?? '');
   const [filter, setFilter] = useState('');
-  // state = {
-  //   contacts: [
-  //   ],
-  //   filter: '',
-  // };
+
 
   useEffect(() => {
-    //  console.log(prevState)
       console.log(contacts)
-      localStorage.setItem('contacts', JSON.stringify(contacts))
+      window.localStorage.setItem('contacts', JSON.stringify(contacts))
   });
-  // useEffect(() => {
-  //   const contactsLocalStorage = JSON.parse(localStorage.getItem('contacts'))
-  //   setContacts( contactsLocalStorage)
+
     
   // },[])
 

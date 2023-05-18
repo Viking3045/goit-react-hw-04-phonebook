@@ -28,9 +28,9 @@ const ContactList = ({del, contacts})=> {
 //   contacts: PropTypes.array.isRequired,
 //   del: PropTypes.func.isRequired,
 // };
-ContactList.defaultProps = {
-  contacts: [],
-};
+// ContactList.defaultProps = {
+//   contacts: [],
+// };
 
 // const ContactList = ({ contacts }) => {
 //     return (
