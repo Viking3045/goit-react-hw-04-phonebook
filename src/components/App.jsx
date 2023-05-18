@@ -12,7 +12,7 @@ export const App =()=> {
 
 
   useEffect(() => {
-      console.log(contacts)
+      // console.log(contacts)
       window.localStorage.setItem('contacts', JSON.stringify(contacts))
   });
 
